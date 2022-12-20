@@ -1,6 +1,9 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Monster;
+import com.codecool.dungeoncrawl.logic.actors.Ork;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 
 public class Cell implements Drawable {
@@ -34,6 +37,7 @@ public class Cell implements Drawable {
     }
 
     public Cell getNeighbor(int dx, int dy) {
+
         return gameMap.getCell(x + dx, y + dy);
     }
 
@@ -49,7 +53,33 @@ public class Cell implements Drawable {
     public int getY() {
         return y;
     }
+
     public void setItem(Item item) {
         this.item = item;
+    }
+    //you can walk on item
+    public boolean isItem() {
+        return this.type.equals(CellType.KEY) || this.type.equals(CellType.SWORD)
+                || this.type.equals(CellType.ARMOR) || this.type.equals(CellType.AIDKIT);
+
+    }
+    //you can walk on it
+    public boolean goingThrough() {
+        return this.getType().equals(CellType.FLOOR) || this.isItem() || this.type.equals(CellType.ICE)
+                || this.type.equals(CellType.GRASS)  || this.type.equals(CellType.DOOR) ;
+    }
+
+
+    //https://www.baeldung.com/java-instanceof
+    public boolean isEnemy() {
+        return this.actor instanceof Monster || this.actor instanceof Ork;
+    }
+
+    public boolean isPlayer() {
+        return this.actor instanceof Player;
+    }
+
+    public boolean isDoor() {
+        return this.type.equals(CellType.DOOR);
     }
 }

@@ -1,9 +1,14 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Boss;
 import com.codecool.dungeoncrawl.logic.actors.Ork;
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.Monster;
+import com.codecool.dungeoncrawl.logic.items.AidKit;
+import com.codecool.dungeoncrawl.logic.items.Armor;
 import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.logic.items.Sword;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -38,13 +43,29 @@ public class MapLoader {
                         case '%':
                             cell.setType(CellType.ICE);
                             break;
-                        case 's':
-                            cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
+                        case 'm':
+                            cell.setType(CellType.MONSTER);
+                            new Monster(cell);
                             break;
                         case 'o':
-                            cell.setType(CellType.FLOOR);
+                            cell.setType(CellType.ORK);
                             new Ork(cell);
+                            break;
+                        case 'b':
+                            cell.setType(CellType.BOSS);
+                            new Boss(cell);
+                            break;
+                        case 's':
+                            cell.setType(CellType.SWORD);
+                            new Sword(cell, "Sword Excalibur");
+                            break;
+                        case 'a':
+                            cell.setType(CellType.ARMOR);
+                            new Armor(cell, "Armor");
+                            break;
+                        case '+':
+                            cell.setType(CellType.AIDKIT);
+                            new AidKit(cell, "Aid Kit");
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);

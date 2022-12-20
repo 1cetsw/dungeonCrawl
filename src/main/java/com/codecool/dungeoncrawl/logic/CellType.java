@@ -6,13 +6,16 @@ public enum CellType {
     GRASS("grass"),
     ICE("ice"),
     WALL("wall"),
-    ENEMY("enemy"),
-    KEY("key"),
-    WEAPON("weapon"),
+    ORK("ork"),
+    MONSTER("monster"),
     BOSS("boss"),
+    KEY("key"),
+    SWORD("sword"),
+    ARMOR("armor"),
     POTION("potion"),
     PLAYER("player"),
-    DOOR("door");
+    DOOR("door"),
+    AIDKIT("aidkit");
 
 
     private final String tileName;

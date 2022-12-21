@@ -1,9 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.Boss;
-import com.codecool.dungeoncrawl.logic.actors.Ork;
-import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Monster;
+import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.AidKit;
 import com.codecool.dungeoncrawl.logic.items.Armor;
 import com.codecool.dungeoncrawl.logic.items.Key;
@@ -50,6 +47,10 @@ public class MapLoader {
                         case 'o':
                             cell.setType(CellType.ORK);
                             new Ork(cell);
+                            break;
+                        case 'g':
+                            cell.setType(CellType.GHOST);
+                            new Ghost(cell);
                             break;
                         case 'b':
                             cell.setType(CellType.BOSS);

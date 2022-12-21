@@ -7,6 +7,7 @@ public enum CellType {
     ICE("ice"),
     WALL("wall"),
     ORK("ork"),
+    GHOST("ork"),
     MONSTER("monster"),
     BOSS("boss"),
     KEY("key"),

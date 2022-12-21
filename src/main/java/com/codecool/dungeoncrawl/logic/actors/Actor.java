@@ -21,34 +21,37 @@ public abstract class Actor implements Drawable {
     public void move(int dx, int dy) {
 
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (godMode()) {
 
+        if (godMode()) { //for nickname "godmode" walk in wall
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
 
         // player movement restrictions
-        if (cell.isPlayer()  && !nextCell.isEnemy() && nextCell.goingThrough()) {
+        if (cell.isPlayer() && !nextCell.isEnemy() && nextCell.goingThrough()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-            // enemy movement restrictions ?? (//TODO enemies movement)
-        } else
-            if (nextCell.goingThrough()  && !nextCell.isPlayer() && !nextCell.isEnemy())   {
+        }
+        // enemies movement restrictions
+        if (nextCell.goingThrough() && !nextCell.isPlayer() && !nextCell.isEnemy()) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        }
+        // ghost movement no restrictions TODO block area errors
+        if (cell.isGhost() && !nextCell.isEnemy() && nextCell.ghostMode()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
     }
 
+
     public boolean godMode() {//if player name "godmode" the player can walk through walls
         return (cell.isPlayer() && (this.name.equals("godmode")));
     }
-    public ArrayList<Item> getInventory() {
-        return inventory;
-    }
-
 
 
     public String getName() {

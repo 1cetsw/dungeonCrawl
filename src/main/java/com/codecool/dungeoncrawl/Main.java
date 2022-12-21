@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Ghost;
 import com.codecool.dungeoncrawl.logic.actors.Monster;
 import com.codecool.dungeoncrawl.logic.actors.Ork;
 import javafx.application.Application;
@@ -278,19 +279,23 @@ public class Main extends Application {
     }
 
     private void enemyMove() {
-        String[] directionsOrk= {"UP", "DOWN", "LEFT", "RIGHT"};
-        String[] directionsMonster = {"LEFT", "RIGHT"};
+        String[] directions4= {"UP", "DOWN", "LEFT", "RIGHT"};
+        String[] directions2 = {"LEFT", "RIGHT"};
         Random random = new Random();
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() instanceof Ork ) {
-                    String direction = directionsOrk[random.nextInt(4)]; //ORk movement random 4 directions
+                    String direction = directions4[random.nextInt(4)]; //ORk movement random 4 directions
                     enemyMove(direction, cell);
                 }
                 if (cell.getActor() instanceof Monster ) {
-                    String direction = directionsMonster[random.nextInt(2)];  //monster movement 2 directions  random(LEFT RIGHT)
+                    String direction = directions2[random.nextInt(2)];  //monster movement 2 directions  random(LEFT RIGHT)
+                    enemyMove(direction, cell);
+                }
+                if (cell.getActor() instanceof Ghost) {
+                    String direction = directions4[random.nextInt(4)];  //ghost walk in wall
                     enemyMove(direction, cell);
                 }
             }

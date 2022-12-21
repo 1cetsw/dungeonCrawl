@@ -1,9 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.Actor;
-import com.codecool.dungeoncrawl.logic.actors.Monster;
-import com.codecool.dungeoncrawl.logic.actors.Ork;
-import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.Item;
 
 public class Cell implements Drawable {
@@ -68,15 +65,23 @@ public class Cell implements Drawable {
         return this.getType().equals(CellType.FLOOR) || this.isItem() || this.type.equals(CellType.ICE)
                 || this.type.equals(CellType.GRASS)  || this.type.equals(CellType.DOOR) ;
     }
+    public boolean ghostMode() {
+        return this.getType().equals(CellType.FLOOR) || this.isItem() || this.type.equals(CellType.ICE)
+                || this.type.equals(CellType.GRASS)  || this.type.equals(CellType.DOOR)
+                || this.type.equals(CellType.WALL)  || this.type.equals(CellType.EMPTY) ;
+    }
 
 
     //https://www.baeldung.com/java-instanceof
     public boolean isEnemy() {
-        return this.actor instanceof Monster || this.actor instanceof Ork;
+        return this.actor instanceof Monster || this.actor instanceof Ork || this.actor instanceof Ghost || this.actor instanceof Boss;
     }
 
     public boolean isPlayer() {
         return this.actor instanceof Player;
+    }
+    public boolean isGhost() {
+        return this.actor instanceof Ghost;
     }
 
     public boolean isDoor() {

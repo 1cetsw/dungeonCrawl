@@ -41,15 +41,15 @@ public class MapLoader {
                             cell.setType(CellType.ICE);
                             break;
                         case 'm':
-                            cell.setType(CellType.MONSTER);
+                            cell.setType(CellType.FLOOR);
                             new Monster(cell);
                             break;
                         case 'o':
-                            cell.setType(CellType.ORK);
+                            cell.setType(CellType.FLOOR);
                             new Ork(cell);
                             break;
                         case 'g':
-                            cell.setType(CellType.GHOST);
+                            cell.setType(CellType.EMPTY);
                             new Ghost(cell);
                             break;
                         case 'b':

@@ -22,17 +22,14 @@ public abstract class Actor implements Drawable {
 
         Cell nextCell = cell.getNeighbor(dx, dy);
 
-        if (godMode()) { //for nickname "godmode" walk in wall
+        //for nickname "godmode" walk in wall
+        if (godMode()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
-
         // player movement restrictions
         if (cell.isPlayer() && !nextCell.isEnemy() && nextCell.goingThrough()) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
         }
         // enemies movement restrictions
         if (nextCell.goingThrough() && !nextCell.isPlayer() && !nextCell.isEnemy()) {
@@ -41,7 +38,7 @@ public abstract class Actor implements Drawable {
             cell = nextCell;
         }
         // ghost movement no restrictions TODO block area errors
-        if (cell.isGhost() && !nextCell.isEnemy() && nextCell.ghostMode()) {
+        if (cell.isGhost() && !nextCell.isPlayer() && !nextCell.isEnemy() && nextCell.ghostMode()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;

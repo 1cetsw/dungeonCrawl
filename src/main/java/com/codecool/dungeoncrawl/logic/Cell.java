@@ -65,10 +65,12 @@ public class Cell implements Drawable {
         return this.getType().equals(CellType.FLOOR) || this.isItem() || this.type.equals(CellType.ICE)
                 || this.type.equals(CellType.GRASS)  || this.type.equals(CellType.DOOR) ;
     }
+    // walk in wall
     public boolean ghostMode() {
         return this.getType().equals(CellType.FLOOR) || this.isItem() || this.type.equals(CellType.ICE)
                 || this.type.equals(CellType.GRASS)  || this.type.equals(CellType.DOOR)
-                || this.type.equals(CellType.WALL)  || this.type.equals(CellType.EMPTY) ;
+                || this.type.equals(CellType.WALL)  || this.type.equals(CellType.EMPTY);
+//                || this.type.equals(CellType.PLAYER); this option clear mobs
     }
 
 

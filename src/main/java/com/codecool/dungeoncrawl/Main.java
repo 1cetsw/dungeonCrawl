@@ -278,14 +278,19 @@ public class Main extends Application {
     }
 
     private void enemyMove() {
-        String[] directions = {"UP", "DOWN", "LEFT", "RIGHT"};
+        String[] directionsOrk= {"UP", "DOWN", "LEFT", "RIGHT"};
+        String[] directionsMonster = {"LEFT", "RIGHT"};
         Random random = new Random();
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
-                if (cell.getActor() instanceof Ork || cell.getActor() instanceof Monster) {
-                    String direction = directions[random.nextInt(4)];
+                if (cell.getActor() instanceof Ork ) {
+                    String direction = directionsOrk[random.nextInt(4)]; //ORk movement random 4 directions
+                    enemyMove(direction, cell);
+                }
+                if (cell.getActor() instanceof Monster ) {
+                    String direction = directionsMonster[random.nextInt(2)];  //monster movement 2 directions  random(LEFT RIGHT)
                     enemyMove(direction, cell);
                 }
             }

@@ -4,6 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Monster;
+import com.codecool.dungeoncrawl.logic.actors.Ork;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.control.*;
@@ -12,6 +14,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -19,7 +24,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 public class Main extends Application {
     GameMap mapLevel1;
@@ -31,7 +39,8 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label nameLabel = new Label();
     Stage stage;
-
+    Button pickUpBtn;
+    Label inventoryLabel = new Label();
 
     public void mainMenu(Stage primaryStage) throws FileNotFoundException, RuntimeException {
         Button startButton = new Button("New Game");
@@ -87,7 +96,9 @@ public class Main extends Application {
     }
 
     public void startGame(Stage primaryStage) throws Exception {
+        pickUpBtn = new Button("Pick up item");
         canvas.setFocusTraversable(false);
+
         nameLabel.setId("name-label");
         nameLabel.setText("" + (map.getPlayer().getName()));
 
@@ -97,6 +108,8 @@ public class Main extends Application {
         ui.setStyle("-fx-background-color: rgba(28, 28, 28, 1); -fx-background-radius: 10;");
         ui.add(nameLabel, 0, 0);
         ui.add(new Label((map.getPlayer().getName()) + "@Health:~$ "), 0, 3);
+        ui.add(new Label((map.getPlayer().getName()) + "@Inventory:~$ "), 0, 7);
+        ui.add(inventoryLabel, 0, 8);
 
         BorderPane borderPane = new BorderPane();
 
@@ -214,6 +227,13 @@ public class Main extends Application {
     }
 
 
+    private void step(int x, int y) {
+        map.getPlayer().move(x, y);
+        enemyMove();
+        refresh();
+    }
+
+
     //double control : arrows and WSAD
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
@@ -221,30 +241,56 @@ public class Main extends Application {
                 System.exit(0);
             case UP:
             case W:
-                map.getPlayer().move(0, -1);
-                refresh();
+                step(0, -1);
                 break;
             case DOWN:
             case S:
-                map.getPlayer().move(0, 1);
-                refresh();
+                step(0, 1);
                 break;
             case LEFT:
             case A:
-                map.getPlayer().move(-1, 0);
-                refresh();
+                step(-1, 0);
                 break;
             case RIGHT:
             case D:
-                map.getPlayer().move(1, 0);
-                refresh();
+                step(1, 0);
                 break;
             case SPACE:
-//                map.getPlayer(). pickup/ fight ...
-                refresh();
+//                pickUP()
+
+        }
+    }
+    private void enemyMove(String direction, Cell cell) {
+        switch (direction) {
+            case "UP":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(0, -1);
+                break;
+            case "DOWN":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(0, 1);
+                break;
+            case "LEFT":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(-1, 0);
+                break;
+            case "RIGHT":
+                map.getCell(cell.getX(), cell.getY()).getActor().move(1, 0);
+                break;
         }
     }
 
+    private void enemyMove() {
+        String[] directions = {"UP", "DOWN", "LEFT", "RIGHT"};
+        Random random = new Random();
+
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                Cell cell = map.getCell(x, y);
+                if (cell.getActor() instanceof Ork || cell.getActor() instanceof Monster) {
+                    String direction = directions[random.nextInt(4)];
+                    enemyMove(direction, cell);
+                }
+            }
+        }
+    }
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -258,12 +304,17 @@ public class Main extends Application {
                 }
             }
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
-    }
+        refreshLabel();
 
+    }
+    private void refreshLabel() {
+        healthLabel.setText("" + map.getPlayer().getHealth());
+
+    }
     public static void main(String[] args) {
 
         launch(args);
     }
 
 }
+

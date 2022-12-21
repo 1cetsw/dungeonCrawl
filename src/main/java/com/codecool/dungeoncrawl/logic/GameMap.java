@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Ork;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class GameMap {
@@ -27,10 +28,13 @@ public class GameMap {
     public void setPlayer(Player player) {
         this.player = player;
     }
-
     public Player getPlayer() {
         return player;
     }
+
+
+
+
 
     public int getWidth() {
         return width;
@@ -38,5 +42,8 @@ public class GameMap {
 
     public int getHeight() {
         return height;
+    }
+
+    public void enemyMove(int i, int i1) {
     }
 }

@@ -4,9 +4,13 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.*;
+
+import java.util.ArrayList;
+
 public abstract class Actor implements Drawable {
     private String name;
     private Cell cell;
+    private ArrayList<Item> inventory = new ArrayList<>();
     private int health = 10;
 
     public Actor(Cell cell) {
@@ -37,9 +41,14 @@ public abstract class Actor implements Drawable {
             cell = nextCell;
         }
     }
+
     public boolean godMode() {//if player name "godmode" the player can walk through walls
         return (cell.isPlayer() && (this.name.equals("godmode")));
     }
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
 
 
     public String getName() {
@@ -65,4 +74,5 @@ public abstract class Actor implements Drawable {
     public int getY() {
         return cell.getY();
     }
+
 }

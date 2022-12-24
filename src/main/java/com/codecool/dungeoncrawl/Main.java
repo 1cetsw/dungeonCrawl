@@ -113,11 +113,11 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
         ui.setStyle("-fx-background-color: rgba(28, 28, 28, 1); -fx-background-radius: 10;");
         ui.add(nameLabel, 0, 0);
-        ui.add(new Label("  your Health: "), 0, 3);
+        ui.add(new Label("  HP: "), 0, 3);
         ui.add(healthLabel, 0, 4);
-        ui.add(new Label( "  your Strength: "), 0, 5);
+        ui.add(new Label( "  ATT: "), 0, 5);
         ui.add(strengthLabel, 0, 6);
-        ui.add(new Label( "  your Defense: "), 0, 7);
+        ui.add(new Label( "  DEF: "), 0, 7);
         ui.add(defenseLabel, 0, 10);
         ui.add(inventoryLabel, 0, 22);
         ui.add(pickUpBanner, 0, 600);
@@ -356,7 +356,7 @@ public class Main extends Application {
         healthLabel.setText("♥" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         strengthLabel.setText("\uD83D\uDCAA" + map.getPlayer().getStrength());
         defenseLabel.setText("\uD83D\uDEE1" + map.getPlayer().getDefense()+ "/" + map.getPlayer().getMaxDefense());
-        inventoryLabel.setText("⬇⬇⬇⬇BAG⬇⬇⬇⬇⬇\n" +
+        inventoryLabel.setText("\n⬇⬇⬇⬇BAG⬇⬇⬇⬇⬇\n" +
                 map.getPlayer().itemInInventory()
                 +"⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆"+
                 "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n " );

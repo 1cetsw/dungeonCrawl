@@ -58,19 +58,19 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.SWORD);
-                            new Sword(cell, "Sword Excalibur");
+                            new Sword(cell, "\uD83D\uDDE1  Sword Excalibur");
                             break;
                         case 'a':
                             cell.setType(CellType.ARMOR);
-                            new Armor(cell, "Armor");
+                            new Armor(cell, "\uD83D\uDEE1  Armor");
                             break;
                         case '+':
                             cell.setType(CellType.AIDKIT);
-                            new AidKit(cell, "Aid Kit");
+                            new AidKit(cell, "\uD83D\uDC8A  Aid Kit");
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);
-                            new Key(cell, "Gold key", 1);
+                            new Key(cell, "⚿  Gold key", 1);
                             break;
                         case 'd':
                             cell.setType(CellType.DOOR);

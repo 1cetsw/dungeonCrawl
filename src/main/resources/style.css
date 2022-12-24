@@ -13,13 +13,13 @@
 
 .label {
     -fx-text-fill: #ffc800;
-    -fx-font-size: 14;
+    -fx-font-size: 20;
 
 }
 
 
 #text {
-    -fx-font-size: 30px;
+    -fx-font-size: 55px;
     -fx-alignment: center;
     -fx-fill: yellow;
     -fx-display-caret: false;
@@ -64,9 +64,21 @@
 
 
 #name-label {
-    -fx-font-size: 25px;
+    -fx-font-size: 35px;
     -fx-alignment: center;
     -fx-font-weight: bold;
     -fx-font-family: "monospace";
     -fx-padding: 0 0 20 0;
+}
+#pick-up-banner {
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-background-color: yellow;
+    -fx-min-width: 100px;
+    -fx-pref-width: 200px;
+
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: "Arial";
+    -fx-font-size: 15px;
+    -fx-text-fill: black;
 }

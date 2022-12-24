@@ -1,15 +1,11 @@
 package com.codecool.dungeoncrawl;
-
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
 import com.codecool.dungeoncrawl.logic.actors.Monster;
 import com.codecool.dungeoncrawl.logic.actors.Ork;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.control.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,15 +14,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
@@ -38,10 +34,14 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label defenseLabel = new Label();
+    Label strengthLabel = new Label();
     Label nameLabel = new Label();
     Stage stage;
-    Button pickUpBtn;
     Label inventoryLabel = new Label();
+
+    Button pickUpBanner;
+    Button monsterDetected;
 
     public void mainMenu(Stage primaryStage) throws FileNotFoundException, RuntimeException {
         Button startButton = new Button("New Game");
@@ -65,7 +65,7 @@ public class Main extends Application {
         creditsButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             try {
                 credits(primaryStage);
-            } catch (FileNotFoundException ex) {
+            } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -88,30 +88,41 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("CodeCool Project May 2022: Dungeon Crawl");
         primaryStage.show();
+
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.stage = primaryStage;
         mainMenu(primaryStage);
+
     }
 
-    public void startGame(Stage primaryStage) throws Exception {
-        pickUpBtn = new Button("Pick up item");
-        canvas.setFocusTraversable(false);
 
+    public void startGame(Stage primaryStage) throws Exception {
+        pickUpBanner = new Button("Press 'E' to pick up item" );
+        canvas.setFocusTraversable(false);
+        pickUpBanner.setFocusTraversable(false);
+        pickUpBanner.setId("pick-up-banner");
+        inventoryLabel.setId("inventory-label");
         nameLabel.setId("name-label");
         nameLabel.setText("" + (map.getPlayer().getName()));
 
         GridPane ui = new GridPane();
-        ui.setPrefWidth(200);
+        ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
         ui.setStyle("-fx-background-color: rgba(28, 28, 28, 1); -fx-background-radius: 10;");
         ui.add(nameLabel, 0, 0);
-        ui.add(new Label((map.getPlayer().getName()) + "@Health:~$ "), 0, 3);
-        ui.add(new Label((map.getPlayer().getName()) + "@Inventory:~$ "), 0, 7);
-        ui.add(inventoryLabel, 0, 8);
+        ui.add(new Label("  your Health: "), 0, 3);
+        ui.add(healthLabel, 0, 4);
+        ui.add(new Label( "  your Strength: "), 0, 5);
+        ui.add(strengthLabel, 0, 6);
+        ui.add(new Label( "  your Defense: "), 0, 7);
+        ui.add(defenseLabel, 0, 10);
+        ui.add(inventoryLabel, 0, 22);
+        ui.add(pickUpBanner, 0, 600);
 
+        hideBanner();
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
@@ -123,17 +134,45 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
+        //TODO atack mosnter
+       //change pickUPBanner  , meybe "monster detected"?
+        monsterDetected.setOnKeyPressed( (e) -> {
+            if (e.getCode() == KeyCode.SPACE) {
+                System.out.println("fight!");
+//                atack();
+            }});
+
+        pickUpBanner.setOnKeyPressed( (e) -> {
+            if (e.getCode() == KeyCode.E) {
+                System.out.println("pick up item");
+                pickUp();
+            }
+
+        });
+
         primaryStage.setTitle("CodeCool Project May 2022: Dungeon Crawl");
         primaryStage.show();
     }
-    public void credits(Stage primaryStage) throws FileNotFoundException{
+        private void hideBanner() {
+            pickUpBanner.setVisible(false);
+        }
+
+        private void showBanner() {
+            pickUpBanner.setVisible(true);
+        }
+
+        private void pickUp() {
+            map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(),
+                    map.getPlayer().getY()).getItem());
+            hideBanner();
+            refreshLabel();
+        }
+
+
+    public void credits(Stage primaryStage) throws Exception {
 
         Button backButton = new Button("Back to Menu");
-
-
         backButton.setId("buttons");
-
-
         HBox buttons = new HBox(backButton);
         buttons.setSpacing(25);
         Text nameLabel = new Text("CREDITS");
@@ -144,6 +183,10 @@ public class Main extends Application {
         VBox credits = new VBox(nameLabel,rulesLabel, buttons);
         credits.setAlignment(Pos.CENTER);
 
+        MouseClick(primaryStage, backButton, buttons, credits);
+    }
+
+    private void MouseClick(Stage primaryStage, Button backButton, HBox buttons, VBox credits) {
         backButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             try {
                 mainMenu(primaryStage);
@@ -201,36 +244,23 @@ public class Main extends Application {
             }
         });
 
-        backButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
-            try {
-                mainMenu(primaryStage);
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
-        });
-
-        BorderPane menu = new BorderPane();
-
-        menu.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100), CornerRadii.EMPTY, Insets.EMPTY)));
-        menu.setPrefWidth(1024);
-        menu.setPrefHeight(600);
-        menu.setCenter(settings);
-
-        buttons.setAlignment(Pos.CENTER);
-        settings.setSpacing(25);
-        Scene scene = new Scene(menu);
-
-        scene.getStylesheets().add("style.css");
-
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("CodeCool Project May 2022: Dungeon Crawl");
-        primaryStage.show();
+        MouseClick(primaryStage, backButton, buttons, settings);
     }
 
 
     private void step(int x, int y) {
         map.getPlayer().move(x, y);
+        if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
+            showBanner();
+        }else{
+            hideBanner();
+        }
+
+        if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
+            //next level fuction TODO
+        }
         enemyMove();
+        
         refresh();
     }
 
@@ -256,8 +286,12 @@ public class Main extends Application {
             case D:
                 step(1, 0);
                 break;
+            case E: //its working !!! :D
+                pickUp();
+                break;
             case SPACE:
-//                pickUP()
+//                atack(); TODO
+            break;
 
         }
     }
@@ -314,11 +348,18 @@ public class Main extends Application {
                 }
             }
         }
-        refreshLabel();
 
+        refreshLabel();
+        
     }
     private void refreshLabel() {
-        healthLabel.setText("" + map.getPlayer().getHealth());
+        healthLabel.setText("♥" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
+        strengthLabel.setText("\uD83D\uDCAA" + map.getPlayer().getStrength());
+        defenseLabel.setText("\uD83D\uDEE1" + map.getPlayer().getDefense()+ "/" + map.getPlayer().getMaxDefense());
+        inventoryLabel.setText("⬇⬇⬇⬇BAG⬇⬇⬇⬇⬇\n" +
+                map.getPlayer().itemInInventory()
+                +"⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆"+
+                "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n " );
 
     }
     public static void main(String[] args) {

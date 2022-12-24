@@ -4,14 +4,14 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class AidKit extends Item {
 
-    private int health = 5;
+    private int aidkit = 25;
 
     public AidKit(Cell cell, String name) {
         super(cell, name);
     }
 
-    public int getHealth() {
-        return health;
+    public int getAidkit() {
+        return aidkit;
     }
 
     @Override

@@ -6,14 +6,14 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Sword extends Item {
 
-    private int attack = 10;
+    private int strength = 50;
 
     public Sword(Cell cell, String name) {
         super(cell, name);
     }
 
     public int getAttack() {
-        return attack;
+        return strength;
     }
 
     @Override

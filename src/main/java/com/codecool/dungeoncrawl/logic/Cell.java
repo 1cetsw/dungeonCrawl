@@ -86,7 +86,13 @@ public class Cell implements Drawable {
         return this.actor instanceof Ghost;
     }
 
+
+
     public boolean isDoor() {
         return this.type.equals(CellType.DOOR);
+    }
+
+    public Item getItem() {
+        return item;
     }
 }

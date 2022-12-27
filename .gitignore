@@ -136,6 +136,9 @@ bower_components
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -205,6 +208,8 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+# Editor-based HTTP Client requests
+/httpRequests/
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
@@ -222,6 +227,10 @@ modules.xml
 
 # Sonarlint plugin
 .idea/sonarlint
+
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
 
 ### Java ###
 # Compiled class file
@@ -254,3 +263,4 @@ setenv.sh
 setenv.ps1
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij+all
+*.psd

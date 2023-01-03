@@ -10,14 +10,18 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+    public static GameMap loadMap(int level) {
+        InputStream is;
+        if (level == 2) {
+            is = MapLoader.class.getResourceAsStream("/map2.txt");
+        } else {
+            is = MapLoader.class.getResourceAsStream("/map.txt");
+        }
         Scanner scanner = new Scanner(is);
+        System.out.println(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
-
         scanner.nextLine(); // empty line
-
         GameMap map = new GameMap(width, height, CellType.EMPTY);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
@@ -70,11 +74,11 @@ public class MapLoader {
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);
-                            new Key(cell, "⚿  Gold key", 1);
+                            new Key(cell, "⚿  Gold key");
                             break;
                         case 'd':
                             cell.setType(CellType.DOOR);
-                            new Key(cell, "Door", 1);
+                            new Key(cell, "Door");
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
@@ -88,5 +92,4 @@ public class MapLoader {
         }
         return map;
     }
-
 }

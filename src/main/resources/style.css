@@ -1,22 +1,19 @@
-.root{
+.root {
     -fx-background-image: url("background.jpg");
 }
 
 .ui {
     -fx-background-color: rgba(120, 116, 116, 0.2);
-
 }
 
-.GridPane{
+.GridPane {
     -fx-background-color: rgba(120, 116, 116, 0.2);
 }
 
 .label {
     -fx-text-fill: #ffc800;
     -fx-font-size: 20;
-
 }
-
 
 #text {
     -fx-font-size: 55px;
@@ -27,7 +24,6 @@
     -fx-border-style: solid;
     -fx-border-width: 2;
     -fx-background-color: gray;
-
     -fx-text-fill: #ffc800;
 }
 
@@ -35,21 +31,17 @@
     -fx-background-image: url("button.png");
     -fx-background-color: transparent;
     -fx-background-size: 150px 60px;
-    /*-fx-border-color: black;*/
-    /*-fx-sha*/
     -fx-pref-width: 150px;
     -fx-pref-height: 60px;
     -fx-padding: 5 10 5 10;
     -fx-font-family: "Copperplate Gothic Bold";
     -fx-font-size: 20px;
     -fx-text-fill: #ffc800;
-
-
 }
 
-#buttons:hover{
-    -fx-background-image: url("button-active.png") ;
-    -fx-background-size:150px 60px;
+#buttons:hover {
+    -fx-background-image: url("button-active.png");
+    -fx-background-size: 150px 60px;
     -fx-background-color: transparent;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
     -fx-pref-width: 150px;
@@ -61,8 +53,6 @@
     -fx-text-fill: #ffc800;
 }
 
-
-
 #name-label {
     -fx-font-size: 35px;
     -fx-alignment: center;
@@ -70,15 +60,16 @@
     -fx-font-family: "monospace";
     -fx-padding: 0 0 20 0;
 }
-#pick-up-banner {
+
+#pick-up-banner, #next-level-banner  {
     -fx-border-color: black;
     -fx-border-style: solid;
     -fx-background-color: yellow;
     -fx-min-width: 100px;
     -fx-pref-width: 200px;
-
     -fx-padding: 5 10 5 10;
     -fx-font-family: "Arial";
-    -fx-font-size: 15px;
+    -fx-font-size: 12px;
     -fx-text-fill: black;
 }
+

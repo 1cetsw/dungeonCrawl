@@ -1,13 +1,12 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
-import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.*;
-import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
+
 
 public abstract class Actor implements Drawable {
     private String name;
@@ -16,9 +15,11 @@ public abstract class Actor implements Drawable {
 
     protected int maxHealth = 100;
     protected int maxDefense = 100;
+    protected int maxStrength = 100;
     protected int health = 100;
     protected int strength = 0;
     protected int defense = 0;
+    protected int zeroed = 0;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -26,21 +27,21 @@ public abstract class Actor implements Drawable {
     }
 
     public void move(int dx, int dy) {
-
         Cell nextCell = cell.getNeighbor(dx, dy);
-
         //for nickname "godmode" walk in wall and max ATK , DEF and HP
         if (godMode()) {
             this.maxHealth = 999;
             this.health = 999;
+            this.maxStrength = 999;
             this.strength = 999;
+            this.maxDefense = 999;
             this.defense = 999;
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
         // player movement restrictions
-        if (cell.isPlayer() && !nextCell.isEnemy() && nextCell.goingThrough()) {
+        if (cell.isPlayer() && !nextCell.isEnemy() && nextCell.goingThrough() && nextCell.isDoor()) {
         }
         // enemies movement restrictions
         if (nextCell.goingThrough() && !nextCell.isPlayer() && !nextCell.isEnemy()) {
@@ -70,17 +71,17 @@ public abstract class Actor implements Drawable {
         if (item instanceof AidKit) { //OK restrictions 100/100 and add HP its working
             health += ((AidKit) item).getAidkit();
             if (health >= maxHealth) health = maxHealth;
-            }
-            if (item instanceof Armor) {//OK restrictions 100/100 and add DEF its working
-                defense += ((Armor) item).getDefense();
-                if (defense >= maxDefense) defense = maxDefense;
-            }
-            if (item instanceof Sword) {//OK no-restrictions and add ATT its working
-                strength += ((Sword) item).getAttack();
-            }
-            item.getCell().setType(CellType.FLOOR); // TODO delete an item from memory,You can pick up an item all the time
-
         }
+        if (item instanceof Armor) {//OK restrictions 100/100 and add DEF its working
+            defense += ((Armor) item).getDefense();
+            if (defense >= maxDefense) defense = maxDefense;
+        }
+        if (item instanceof Sword) {//OK  restrictions 100/100 and add ATT its working
+            strength += ((Sword) item).getAttack();
+            if (strength >= maxStrength) strength = maxStrength;
+        }
+        item.getCell().setType(CellType.FLOOR);// TODO delete an item from memory,You can pick up an item all the time
+    }
 
 
     public String itemInInventory() {
@@ -101,6 +102,10 @@ public abstract class Actor implements Drawable {
 
     public int getHealth() {
         return health;
+    }
+
+    public void setCell(Cell cell) {
+        this.cell = cell;
     }
 
     public int getMaxHealth() {
@@ -142,6 +147,8 @@ public abstract class Actor implements Drawable {
         return isKey;
     }
 
+    public ArrayList<Item> removeKey() {
+        return this.inventory = new ArrayList<>();
 
-
+    }
 }

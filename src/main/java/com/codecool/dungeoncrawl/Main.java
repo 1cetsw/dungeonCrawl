@@ -1,4 +1,5 @@
 package com.codecool.dungeoncrawl;
+
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
@@ -28,10 +29,11 @@ import java.util.Random;
 
 public class Main extends Application {
     GameMap mapLevel1;
-    GameMap map = MapLoader.loadMap();
+    GameMap mapLevel2;
+    GameMap map;
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            25 * Tiles.TILE_WIDTH, //map.getWidth() * Tiles.TILE_WIDTH,
+            20 * Tiles.TILE_WIDTH);// map.getHeight() * Tiles.TILE_WIDTH); nie wiem czemu nie dziala
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label defenseLabel = new Label();
@@ -41,6 +43,7 @@ public class Main extends Application {
     Label inventoryLabel = new Label();
 
     Button pickUpBanner;
+    Button nextLevelBanner;
     Button monsterDetected;
 
     public void mainMenu(Stage primaryStage) throws FileNotFoundException, RuntimeException {
@@ -99,11 +102,15 @@ public class Main extends Application {
     }
 
 
-    public void startGame(Stage primaryStage) throws Exception {
-        pickUpBanner = new Button("Press 'E' to pick up item" );
+    public void startGame(Stage primaryStage) {
+        pickUpBanner = new Button("Press 'E' to pick up item");
         canvas.setFocusTraversable(false);
         pickUpBanner.setFocusTraversable(false);
         pickUpBanner.setId("pick-up-banner");
+        nextLevelBanner = new Button("Press 'ENTER' to next level");
+        canvas.setFocusTraversable(false);
+        nextLevelBanner.setFocusTraversable(false);
+        nextLevelBanner.setId("next-level-banner");
         inventoryLabel.setId("inventory-label");
         nameLabel.setId("name-label");
         nameLabel.setText("" + (map.getPlayer().getName()));
@@ -115,13 +122,14 @@ public class Main extends Application {
         ui.add(nameLabel, 0, 0);
         ui.add(new Label("  HP: "), 0, 3);
         ui.add(healthLabel, 0, 4);
-        ui.add(new Label( "  ATT: "), 0, 5);
+        ui.add(new Label("  ATT: "), 0, 5);
         ui.add(strengthLabel, 0, 6);
-        ui.add(new Label( "  DEF: "), 0, 7);
+        ui.add(new Label("  DEF: "), 0, 7);
         ui.add(defenseLabel, 0, 10);
         ui.add(inventoryLabel, 0, 22);
         ui.add(pickUpBanner, 0, 600);
-
+        ui.add(nextLevelBanner, 0, 600);
+        hideNextLevelBanner();
         hideBanner();
         BorderPane borderPane = new BorderPane();
 
@@ -135,38 +143,73 @@ public class Main extends Application {
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
         //TODO atack mosnter
-       //change pickUPBanner  , meybe "monster detected"?
-        monsterDetected.setOnKeyPressed( (e) -> {
+        //change pickUPBanner  , meybe "monster detected"?
+        monsterDetected.setOnKeyPressed((e) -> {
             if (e.getCode() == KeyCode.SPACE) {
                 System.out.println("fight!");
 //                atack();
-            }});
+            }
+        });
 
-        pickUpBanner.setOnKeyPressed( (e) -> {
+        pickUpBanner.setOnKeyPressed((e) -> {
             if (e.getCode() == KeyCode.E) {
                 System.out.println("pick up item");
                 pickUp();
             }
 
         });
+        nextLevelBanner.setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                System.out.println("jump to next level");
+                nextLevel();
+            }
+
+        });
+
 
         primaryStage.setTitle("CodeCool Project May 2022: Dungeon Crawl");
         primaryStage.show();
     }
-        private void hideBanner() {
-            pickUpBanner.setVisible(false);
-        }
 
-        private void showBanner() {
-            pickUpBanner.setVisible(true);
-        }
+    private void hideBanner() {
+        pickUpBanner.setVisible(false);
+    }
 
-        private void pickUp() {
-            map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(),
-                    map.getPlayer().getY()).getItem());
-            hideBanner();
-            refreshLabel();
-        }
+    private void hideNextLevelBanner() {
+        nextLevelBanner.setVisible(false);
+    }
+
+
+    private void showBanner() {
+        pickUpBanner.setVisible(true);
+
+    }
+
+    private void showNextLevelBanner() {
+
+        nextLevelBanner.setVisible(true);
+    }
+
+
+    private void pickUp() {
+        map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(),
+                map.getPlayer().getY()).getItem());
+        hideBanner();
+        refreshLabel();
+    }
+
+    private void nextLevel() {
+        map.getPlayer().removeKey();
+        mapLevel2 = MapLoader.loadMap(2);
+        Cell playerCell = mapLevel2.getPlayer().getCell();
+        mapLevel1.getPlayer().setCell(playerCell);
+        mapLevel2.setPlayer(mapLevel1.getPlayer());
+        map = mapLevel2;
+
+        refreshLabel();
+        refresh();
+        hideNextLevelBanner();
+    }
 
 
     public void credits(Stage primaryStage) throws Exception {
@@ -179,8 +222,8 @@ public class Main extends Application {
         nameLabel.setId("text");
         Text rulesLabel = new Text("cos tu mozna naskrobac");
         rulesLabel.setId("text");
-        
-        VBox credits = new VBox(nameLabel,rulesLabel, buttons);
+
+        VBox credits = new VBox(nameLabel, rulesLabel, buttons);
         credits.setAlignment(Pos.CENTER);
 
         MouseClick(primaryStage, backButton, buttons, credits);
@@ -235,7 +278,7 @@ public class Main extends Application {
 
         startButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             try {
-                mapLevel1 = MapLoader.loadMap();
+                mapLevel1 = MapLoader.loadMap(1);
                 map = mapLevel1;
                 map.getPlayer().setName(textField.getText());
                 startGame(primaryStage);
@@ -252,15 +295,22 @@ public class Main extends Application {
         map.getPlayer().move(x, y);
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
             showBanner();
-        }else{
+        } else {
             hideBanner();
+            hideNextLevelBanner();
         }
 
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
-            //next level fuction TODO
+            if (map.getPlayer().isOpen()) {
+
+                showNextLevelBanner();
+
+
+            } else {
+                hideNextLevelBanner();
+            }
         }
         enemyMove();
-        
         refresh();
     }
 
@@ -286,15 +336,26 @@ public class Main extends Application {
             case D:
                 step(1, 0);
                 break;
-            case E: //its working !!! :D
+            case E: //its working !!! , Block spam drop items, only pickup 1 item
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()){
                 pickUp();
+                }
+                break;
+            case ENTER: //its working !!!  if player standing in door, display banner if key in inventory
+                if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
+                    if (map.getPlayer().isOpen()) {
+                        nextLevel();
+                    }
+                }
+
                 break;
             case SPACE:
 //                atack(); TODO
-            break;
+                break;
 
         }
     }
+
     private void enemyMove(String direction, Cell cell) {
         switch (direction) {
             case "UP":
@@ -313,18 +374,18 @@ public class Main extends Application {
     }
 
     private void enemyMove() {
-        String[] directions4= {"UP", "DOWN", "LEFT", "RIGHT"};
+        String[] directions4 = {"UP", "DOWN", "LEFT", "RIGHT"};
         String[] directions2 = {"LEFT", "RIGHT"};
         Random random = new Random();
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
-                if (cell.getActor() instanceof Ork ) {
+                if (cell.getActor() instanceof Ork) {
                     String direction = directions4[random.nextInt(4)]; //ORk movement random 4 directions
                     enemyMove(direction, cell);
                 }
-                if (cell.getActor() instanceof Monster ) {
+                if (cell.getActor() instanceof Monster) {
                     String direction = directions2[random.nextInt(2)];  //monster movement 2 directions  random(LEFT RIGHT)
                     enemyMove(direction, cell);
                 }
@@ -335,6 +396,7 @@ public class Main extends Application {
             }
         }
     }
+
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -348,22 +410,20 @@ public class Main extends Application {
                 }
             }
         }
-
         refreshLabel();
-        
     }
+
     private void refreshLabel() {
         healthLabel.setText("♥" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         strengthLabel.setText("\uD83D\uDCAA" + map.getPlayer().getStrength());
-        defenseLabel.setText("\uD83D\uDEE1" + map.getPlayer().getDefense()+ "/" + map.getPlayer().getMaxDefense());
+        defenseLabel.setText("\uD83D\uDEE1" + map.getPlayer().getDefense() + "/" + map.getPlayer().getMaxDefense());
         inventoryLabel.setText("\n⬇⬇⬇⬇BAG⬇⬇⬇⬇⬇\n" +
                 map.getPlayer().itemInInventory()
-                +"⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆"+
-                "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n " );
-
+                + "⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆" +
+                "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ");
     }
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
         launch(args);
     }
 

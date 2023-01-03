@@ -24,26 +24,18 @@ public class GameMap {
     public Cell getCell(int x, int y) {
         return cells[x][y];
     }
-
     public void setPlayer(Player player) {
         this.player = player;
     }
     public Player getPlayer() {
         return player;
     }
-
-
-
-
-
     public int getWidth() {
         return width;
     }
-
     public int getHeight() {
         return height;
     }
-
     public void enemyMove(int i, int i1) {
     }
 }

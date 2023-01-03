@@ -18,7 +18,6 @@ public enum CellType {
     DOOR("door"),
     AIDKIT("aidkit");
 
-
     private final String tileName;
 
     CellType(String tileName) {

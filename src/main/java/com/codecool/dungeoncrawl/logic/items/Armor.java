@@ -6,12 +6,11 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Armor extends Item {
 
-    private int defense = 25;
+    private int defense = 10;
 
     public Armor(Cell cell, String name) {
         super(cell, name);
     }
-
     public int getDefense() {
         return defense;
     }

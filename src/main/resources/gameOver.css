@@ -1,5 +1,5 @@
 .root {
-    -fx-background-image: url("background.jpg");
+    -fx-background-image: url("gameOver.png");
 }
 
 .ui {
@@ -73,26 +73,3 @@
     -fx-text-fill: black;
 }
 
-#gameOver1 {
-    -fx-font-size:100px;
-    -fx-alignment: center;
-    -fx-fill: #ffc800;
-    -fx-display-caret: false;
-    -fx-border-color: #ffc800;
-    -fx-border-style: solid;
-    -fx-border-width: 2;
-    -fx-background-color: gray;
-    -fx-text-fill: #ffc800;
-}
-#gameOver2 {
-    -fx-font-size:155px;
-    -fx-alignment: center;
-    -fx-fill:#ffc800;
-    -fx-display-caret: false;
-    -fx-border-color: #ffc800;
-    -fx-border-style: solid;
-    -fx-border-width: 2;
-    -fx-background-color: gray;
-    -fx-text-fill: #ffc800;
-
-}

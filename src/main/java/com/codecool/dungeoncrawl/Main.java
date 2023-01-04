@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
@@ -15,11 +16,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,8 +33,8 @@ public class Main extends Application {
     GameMap mapLevel2;
     GameMap map;
     Canvas canvas = new Canvas(
-            25 * Tiles.TILE_WIDTH, //map.getWidth() * Tiles.TILE_WIDTH,
-            20 * Tiles.TILE_WIDTH);// map.getHeight() * Tiles.TILE_WIDTH); nie wiem czemu nie dziala
+            30 * Tiles.TILE_WIDTH, //map.getWidth() * Tiles.TILE_WIDTH,
+            21 * Tiles.TILE_WIDTH);// map.getHeight() * Tiles.TILE_WIDTH); nie wiem czemu nie dziala
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label defenseLabel = new Label();
@@ -46,7 +47,9 @@ public class Main extends Application {
     Button nextLevelBanner;
     Button monsterDetected;
 
+
     public void mainMenu(Stage primaryStage) throws FileNotFoundException, RuntimeException {
+
         Button startButton = new Button("New Game");
         Button creditsButton = new Button("Credits");
         Button exitGameButton = new Button("Exit Game");
@@ -99,7 +102,9 @@ public class Main extends Application {
         this.stage = primaryStage;
         mainMenu(primaryStage);
 
+        
     }
+
 
 
     public void startGame(Stage primaryStage) {
@@ -114,6 +119,8 @@ public class Main extends Application {
         inventoryLabel.setId("inventory-label");
         nameLabel.setId("name-label");
         nameLabel.setText("" + (map.getPlayer().getName()));
+
+
 
         GridPane ui = new GridPane();
         ui.setPrefWidth(250);
@@ -222,6 +229,23 @@ public class Main extends Application {
         nameLabel.setId("text");
         Text rulesLabel = new Text("cos tu mozna naskrobac");
         rulesLabel.setId("text");
+
+        VBox credits = new VBox(nameLabel, rulesLabel, buttons);
+        credits.setAlignment(Pos.CENTER);
+
+        MouseClick(primaryStage, backButton, buttons, credits);
+    }
+    public void gameOver(Stage primaryStage) throws Exception {
+        Button startButton = new Button("Play Again");
+        startButton.setId("buttons");
+        Button backButton = new Button("Back to Menu");
+        backButton.setId("buttons");
+        HBox buttons = new HBox(backButton);
+        buttons.setSpacing(25);
+        Text nameLabel = new Text("\uD83D\uDC80 GAME OVER \uD83D\uDC80");
+        nameLabel.setId("gameOver1");
+        Text rulesLabel = new Text("\uD83D\uDC80");
+        rulesLabel.setId("gameOver2");
 
         VBox credits = new VBox(nameLabel, rulesLabel, buttons);
         credits.setAlignment(Pos.CENTER);
@@ -398,13 +422,37 @@ public class Main extends Application {
     }
 
     private void refresh() {
-        context.setFill(Color.BLACK);
-        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                Cell cell = map.getCell(x, y);
+        if(map.getPlayer().getHealth() <=0 ) {//if HP <= 0  =GAME OVER
+            try {
+                gameOver(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        context.setFill(Color.rgb(0,0,0,0.3));
+        context.fillRect(1, 1, canvas.getWidth(), canvas.getHeight());
+        //orginal view
+//        for (int x = 0; x < map.getWidth(); x++) {
+//            for (int y = 0; y < map.getHeight(); y++) {
+//                Cell cell = map.getCell(x, y);
+//                if (cell.getActor() != null) {
+//                    Tiles.drawTile(context, cell.getActor(), x, y);
+//                } else {
+//                    Tiles.drawTile(context, cell, x, y);
+//                }
+//            }
+
+        for (int x = map.getPlayer().getX() - 13; x < map.getPlayer().getX() + 13; x++) {
+            for (int y = map.getPlayer().getY() - 13; y < map.getPlayer().getY() + 13; y++) {
+                Cell cell;
+                try {
+                    cell = map.getCell((x + map.getPlayer().getX()) - 11, y + map.getPlayer().getY() - 8);
+                } catch (IndexOutOfBoundsException e) {
+                    cell = new Cell(map, 1, 1, CellType.EMPTY);
+                }
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
+
                 } else {
                     Tiles.drawTile(context, cell, x, y);
                 }
@@ -423,6 +471,7 @@ public class Main extends Application {
                 "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ");
     }
 
+  
     public static void main(String[] args) {
         launch(args);
     }

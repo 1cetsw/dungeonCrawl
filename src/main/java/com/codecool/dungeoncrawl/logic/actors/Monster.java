@@ -5,6 +5,9 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class Monster extends Actor {
     public Monster(Cell cell) {
         super(cell);
+        maxHealth = 30;
+        health = 30;
+        strength += 1;
     }
 
     @Override

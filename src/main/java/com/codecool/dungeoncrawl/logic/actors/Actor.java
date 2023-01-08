@@ -104,6 +104,9 @@ public abstract class Actor implements Drawable {
         return health;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
     public void setCell(Cell cell) {
         this.cell = cell;
     }
@@ -147,8 +150,37 @@ public abstract class Actor implements Drawable {
         return isKey;
     }
 
+
     public ArrayList<Item> removeKey() {
         return this.inventory = new ArrayList<>();
 
     }
+
+    public void attack(Actor actor, Cell cell) {
+        while (true) {
+            actor.setHealth(actor.getHealth() - this.strength);
+            System.out.println(this.getClass().getSimpleName() + "  "+ this.health + " HP VS " + actor.getHealth() +"HP  "+ actor.getClass().getSimpleName());
+            if (actor.getHealth() <= 0 || this.health <= 0) break;
+            this.health = this.health - actor.getStrength();
+            System.out.println(this.getClass().getSimpleName() + "  "+ this.health + "HP  VS " + actor.getHealth() +"HP  "+ actor.getClass().getSimpleName());
+            if (actor.getHealth() <= 0 || this.health <= 0) break;
+        }
+        if (actor.getHealth() <= 0)  {
+            cell.setActor(null);
+            System.out.println(actor.getClass().getSimpleName() + " is dead");
+        } else if (this.health <= 0 ){
+            cell.setActor(null);
+            System.out.println(this.getClass().getSimpleName() + " is dead");
+        }
+    }
+    public void fight(int dx, int dy){
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        // player
+        if (nextCell.isEnemy() && cell.isPlayer()) attack(nextCell.getActor(), nextCell);
+        // enemy
+        if (nextCell.isPlayer() && cell.isEnemy()) attack(nextCell.getActor(), nextCell);
+
+    }
+
+
 }

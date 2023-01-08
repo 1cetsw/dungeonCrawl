@@ -53,11 +53,11 @@ public class MapLoader {
                             new Ork(cell);
                             break;
                         case 'g':
-                            cell.setType(CellType.EMPTY);
+                            cell.setType(CellType.FLOOR);
                             new Ghost(cell);
                             break;
                         case 'b':
-                            cell.setType(CellType.BOSS);
+                            cell.setType(CellType.FLOOR);
                             new Boss(cell);
                             break;
                         case 's':

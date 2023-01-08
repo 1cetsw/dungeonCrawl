@@ -6,6 +6,9 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class Ork extends Actor {
     public Ork(Cell cell) {
         super(cell);
+        maxHealth = 20;
+        health = 20;
+        strength += 2;
     }
 
     @Override

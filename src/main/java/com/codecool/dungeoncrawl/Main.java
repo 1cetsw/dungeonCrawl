@@ -7,6 +7,7 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
 import com.codecool.dungeoncrawl.logic.actors.Monster;
 import com.codecool.dungeoncrawl.logic.actors.Ork;
+import com.codecool.dungeoncrawl.logic.actors.Boss;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -316,7 +317,10 @@ public class Main extends Application {
 
 
     private void step(int x, int y) {
+
         map.getPlayer().move(x, y);
+        map.getPlayer().fight(x, y);
+
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
             showBanner();
         } else {
@@ -374,7 +378,7 @@ public class Main extends Application {
 
                 break;
             case SPACE:
-//                atack(); TODO
+//                atac
                 break;
 
         }

@@ -4,7 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class AidKit extends Item {
 
-    private int aidkit = 10;
+    private int aidkit = 20;
 
     public AidKit(Cell cell, String name) {
         super(cell, name);

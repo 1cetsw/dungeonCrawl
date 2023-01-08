@@ -36,6 +36,5 @@ public class GameMap {
     public int getHeight() {
         return height;
     }
-    public void enemyMove(int i, int i1) {
-    }
+
 }

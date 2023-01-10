@@ -20,7 +20,7 @@ public class GameMap {
         }
     }
 
-    public Cell getCell(int x, int y) {
+    public Cell getCell(int x, int y) throws ArrayIndexOutOfBoundsException {
         return cells[x][y];
     }
 

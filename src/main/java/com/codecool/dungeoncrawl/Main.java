@@ -9,8 +9,10 @@ import com.codecool.dungeoncrawl.logic.actors.Monster;
 import com.codecool.dungeoncrawl.logic.actors.Ork;
 import com.codecool.dungeoncrawl.logic.actors.Boss;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -49,6 +51,16 @@ public class Main extends Application {
     Button monsterDetected;
 
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.stage = primaryStage;
+        mainMenu(this.stage);
+    }
+
     public void mainMenu(Stage primaryStage) throws FileNotFoundException, RuntimeException {
 
         Button startButton = new Button("New Game");
@@ -67,7 +79,8 @@ public class Main extends Application {
             }
         });
         exitGameButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
-            System.exit(0);
+            Platform.exit();
+//            System.exit(0);
         });
         creditsButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> {
             try {
@@ -96,14 +109,6 @@ public class Main extends Application {
         primaryStage.setTitle("CodeCool Project May 2022: Dungeon Crawl");
         primaryStage.show();
 
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.stage = primaryStage;
-        mainMenu(primaryStage);
-
-        
     }
 
 
@@ -137,8 +142,8 @@ public class Main extends Application {
         ui.add(inventoryLabel, 0, 22);
         ui.add(pickUpBanner, 0, 600);
         ui.add(nextLevelBanner, 0, 600);
-        hideNextLevelBanner();
-        hideBanner();
+        hideElement(nextLevelBanner);
+        hideElement(pickUpBanner);
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
@@ -179,30 +184,19 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void hideBanner() {
-        pickUpBanner.setVisible(false);
+    private void displayElement(Node element) {
+        element.setVisible(true);
     }
 
-    private void hideNextLevelBanner() {
-        nextLevelBanner.setVisible(false);
-    }
-
-
-    private void showBanner() {
-        pickUpBanner.setVisible(true);
-
-    }
-
-    private void showNextLevelBanner() {
-
-        nextLevelBanner.setVisible(true);
+    private void hideElement(Node element) {
+        element.setVisible(false);
     }
 
 
     private void pickUp() {
         map.getPlayer().pickUpItem(map.getCell(map.getPlayer().getX(),
                 map.getPlayer().getY()).getItem());
-        hideBanner();
+        hideElement(pickUpBanner);
         refreshLabel();
     }
 
@@ -216,7 +210,7 @@ public class Main extends Application {
 
         refreshLabel();
         refresh();
-        hideNextLevelBanner();
+        hideElement(nextLevelBanner);
     }
 
 
@@ -322,20 +316,17 @@ public class Main extends Application {
         map.getPlayer().fight(x, y);
 
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isItem()) {
-            showBanner();
+            displayElement(pickUpBanner);
         } else {
-            hideBanner();
-            hideNextLevelBanner();
+            hideElement(pickUpBanner);//TODO should be on pickup event listener
+            hideElement(nextLevelBanner);//TODO: should be on going trough the door event listener
         }
 
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).isDoor()) {
             if (map.getPlayer().isOpen()) {
-
-                showNextLevelBanner();
-
-
+                displayElement(nextLevelBanner);
             } else {
-                hideNextLevelBanner();
+                hideElement(nextLevelBanner);
             }
         }
         enemyMove();
@@ -378,7 +369,7 @@ public class Main extends Application {
 
                 break;
             case SPACE:
-//                atac
+//                attack(); TODO
                 break;
 
         }
@@ -433,7 +424,7 @@ public class Main extends Application {
                 e.printStackTrace();
             }
         }
-        context.setFill(Color.rgb(0,0,0,0.3));
+        context.setFill(Color.rgb(0, 0, 0, 0.3));
         context.fillRect(1, 1, canvas.getWidth(), canvas.getHeight());
         //orginal view
 //        for (int x = 0; x < map.getWidth(); x++) {
@@ -475,10 +466,7 @@ public class Main extends Application {
                 "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ");
     }
 
-  
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 
 }
 

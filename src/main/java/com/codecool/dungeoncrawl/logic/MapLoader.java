@@ -12,11 +12,12 @@ import java.util.Scanner;
 public class MapLoader {
     public static GameMap loadMap(int level) {
         InputStream is;
+
         if (level == 2) {
             is = MapLoader.class.getResourceAsStream("/map2.txt");
         } else {
-            is = MapLoader.class.getResourceAsStream("/map.txt");
-        }
+            is = MapLoader.class.getResourceAsStream("/map.txt");}
+
         Scanner scanner = new Scanner(is);
         System.out.println(is);
         int width = scanner.nextInt();
@@ -74,12 +75,13 @@ public class MapLoader {
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);
-                            new Key(cell, "⚿  Gold key");
+                            new Key(cell, "⚿ 1lvl key",1);
                             break;
                         case 'd':
                             cell.setType(CellType.DOOR);
-                            new Key(cell, "Door");
+                            new Key(cell, "Door",1);
                             break;
+
                         case '@':
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));

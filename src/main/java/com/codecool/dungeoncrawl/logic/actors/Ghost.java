@@ -7,7 +7,8 @@ public class Ghost extends Actor {
         super(cell);
         maxHealth = 100;
         health =100;
-        strength += 7;
+        strength = 7;
+        defense = 5;
     }
 
     @Override

@@ -32,6 +32,7 @@ import java.util.Random;
 public class Main extends Application {
     GameMap mapLevel1;
     GameMap mapLevel2;
+    GameMap mapLevel3;
     GameMap map;
     Canvas canvas = new Canvas(
             30 * Tiles.TILE_WIDTH, //map.getWidth() * Tiles.TILE_WIDTH,
@@ -207,12 +208,16 @@ public class Main extends Application {
     }
 
     private void nextLevel() {
+
         map.getPlayer().removeKey();
         mapLevel2 = MapLoader.loadMap(2);
         Cell playerCell = mapLevel2.getPlayer().getCell();
         mapLevel1.getPlayer().setCell(playerCell);
         mapLevel2.setPlayer(mapLevel1.getPlayer());
         map = mapLevel2;
+
+
+
 
         refreshLabel();
         refresh();

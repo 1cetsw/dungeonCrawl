@@ -7,7 +7,8 @@ public class Monster extends Actor {
         super(cell);
         maxHealth = 30;
         health = 30;
-        strength += 1;
+        strength = 1;
+        defense = 1;
     }
 
     @Override

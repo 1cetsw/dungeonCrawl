@@ -8,7 +8,8 @@ public class Ork extends Actor {
         super(cell);
         maxHealth = 20;
         health = 20;
-        strength += 2;
+        strength = 2;
+        defense = 5;
     }
 
     @Override

@@ -4,9 +4,10 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class Boss extends Actor {
     public Boss(Cell cell) {
         super(cell);
-        maxHealth -= 50;
-        health -= 50;
-        strength -= 4;
+        maxHealth = 150;
+        health = 150;
+        strength = 4;
+        defense = 5;
     }
     @Override
     public String getTileName() {

@@ -31,8 +31,23 @@ public class Cell implements Drawable {
         return actor;
     }
 
+    /** getNeighbor method tries to fetch a cell from the GameMap object that is neighbor to the Cell object on
+     * which the method is being called. gameMap.getCell(x + dx, y + dy) will return the Cell only if it exists and
+     * belongs to the array of Cells contained by the GameMap Object. Otherwise, an ArrayIndexOutOfBound exception
+     * is thrown by the getCell(x + dx, y + dy) method in a GameMap object. This exception is being caught here and
+     * a null value is returned as a result of that caught, which can be used by the Actors as a feedback on the
+     * existence of the neighbor cell.
+     */
     public Cell getNeighbor(int dx, int dy) {
-        return gameMap.getCell(x + dx, y + dy);
+
+         try {
+             return gameMap.getCell(x + dx, y + dy);
+
+         }
+         catch (IndexOutOfBoundsException e) {
+             return null;
+         }
+
     }
 
     @Override

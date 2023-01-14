@@ -20,8 +20,13 @@ public class GameMap {
         }
     }
 
-    public Cell getCell(int x, int y) throws ArrayIndexOutOfBoundsException {
-        return cells[x][y];
+    public Cell getCell(int x, int y) {
+        try {
+            return cells[x][y];
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public void setPlayer(Player player) {

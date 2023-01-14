@@ -31,6 +31,9 @@ public class Cell implements Drawable {
         return actor;
     }
 
+    /** getNeighbor method tries to fetch a cell from the GameMap object that is in position relative to the Cell object
+     *  on which the method is being called. gameMap.getCell(x + dx, y + dy) will return a neighboring Cell if it exists
+     *  or null if it does not exist.*/
     public Cell getNeighbor(int dx, int dy) {
         return gameMap.getCell(x + dx, y + dy);
     }

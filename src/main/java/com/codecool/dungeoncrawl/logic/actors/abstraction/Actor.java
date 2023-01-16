@@ -1,11 +1,10 @@
-package com.codecool.dungeoncrawl.logic.actors;
+package com.codecool.dungeoncrawl.logic.actors.abstraction;
 
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.GameElement;
+import com.codecool.dungeoncrawl.logic.map.Cell;
 
-public abstract class Actor implements Drawable {
+public abstract class Actor extends GameElement {
     private Cell cell;
-    private int health = 10;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -19,9 +18,6 @@ public abstract class Actor implements Drawable {
         cell = nextCell;
     }
 
-    public int getHealth() {
-        return health;
-    }
 
     public Cell getCell() {
         return cell;

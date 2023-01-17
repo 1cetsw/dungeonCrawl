@@ -66,7 +66,9 @@ public abstract class Actor implements Drawable {
         return inventory;
     }
 
-    public void pickUpItem(Item item) {//TODO  Disable the ability to pick up items when I have a full state
+
+
+    public void pickUpItem(Item item) {
         this.inventory.add(item);
         if (item instanceof AidKit) { //OK restrictions 100/100 and add HP its working
             health += ((AidKit) item).getAidkit();
@@ -80,7 +82,7 @@ public abstract class Actor implements Drawable {
             strength += ((Sword) item).getAttack();
             if (strength >= maxStrength) strength = maxStrength;
         }
-        item.getCell().setType(CellType.FLOOR);// TODO delete an item from memory,You can pick up an item all the time
+        item.getCell().setType(CellType.FLOOR);
     }
 
 

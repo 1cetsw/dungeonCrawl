@@ -75,7 +75,7 @@ public class MapLoader {
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);
-                            new Key(cell, "⚿ 1lvl key",1);
+                            new Key(cell, "⚿ Gold key",1);
                             break;
                         case 'd':
                             cell.setType(CellType.DOOR);

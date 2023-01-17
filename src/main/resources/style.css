@@ -27,6 +27,28 @@
     -fx-text-fill: #ffc800;
 }
 
+#text-info {
+    -fx-font-size: 25px;
+    -fx-alignment: center;
+    -fx-fill: yellow;
+    -fx-display-caret: false;
+    -fx-border-color: yellow;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-background-color: gray;
+    -fx-text-fill: #ffc800;
+}
+#text-authors{
+    -fx-font-size: 30px;
+    -fx-alignment: center;
+    -fx-fill: yellow;
+    -fx-display-caret: false;
+    -fx-border-color: yellow;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-background-color: gray;
+    -fx-text-fill: #ffc800;
+}
 #buttons {
     -fx-background-image: url("button.png");
     -fx-background-color: transparent;

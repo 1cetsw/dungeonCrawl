@@ -1,12 +1,16 @@
 package com.codecool.dungeoncrawl.logic.map;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GameMap {
-    private int width;
-    private int height;
-    private Cell[][] cells;
-
+    @Getter
+    private final int width;
+    @Getter
+    private final int height;
+    private final Cell[][] cells;
+    @Getter @Setter
     private Player player;
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -27,21 +31,5 @@ public class GameMap {
         catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 }

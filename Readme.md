@@ -239,3 +239,15 @@ None
 - <i class="far fa-exclamation"></i> [Serialization in Java](project/curriculum/materials/pages/java/serialization-in-java.md)
 - <i class="far fa-exclamation"></i> [Compare two popular serialization frameworks](https://www.baeldung.com/jackson-vs-gson)
 - [1-Bit Pack by Kenney](https://kenney.nl/assets/bit-pack)
+
+
+
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Contact
+
+For any questions or inquiries, please contact  
+Krzysztof [1cetsw@gmail.com].

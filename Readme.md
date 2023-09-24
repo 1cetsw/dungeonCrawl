@@ -28,6 +28,18 @@ the important bit is that it should be fun!
   completely different interface e.g. terminal, web, Virtual Reality, etc. for
   the same logic code.)
 
+## Installation Back-End Java 
+
+1. Clone the repository: `git clone https://github.com/1cetsw/dungeonCrawl.git`
+2. Open the project in your preferred IDE (e.g., IntelliJ IDEA, Eclipse).
+3. Run the project.
+
+
+## Technologies Used
+
+- Back-end: Java 
+
+
 ## Tasks
 
 1. Understand the existing code, classes and tests so you can make changes. You should do this before planning everything else. It will help you understand what is going on.
